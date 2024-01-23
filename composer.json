@@ -1,0 +1,19 @@
+{
+    "name": "red-flag/qr-bank-generator",
+    "description": "Bank account's QR code generator",
+    "type": "composer-plugin",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "RedFlag\\QrBankGenerator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "leduyhoang1994",
+            "email": "leduyhoang1994@gmail.com"
+        }
+    ]
+}
