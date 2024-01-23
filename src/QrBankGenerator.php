@@ -71,16 +71,6 @@ class QrBankGenerator implements IQrBankGenerator
         return $contentQR;
     }
 
-    protected static function convertLength($value)
-    {
-        if ((filter_var($value, FILTER_VALIDATE_INT) !== false) && (int) $value < 10) {
-            $value = '0'.$value;
-        }
-
-        return strlen($value);
-    }
-
-
     protected static function convertNum($value)
     {
         if ((filter_var($value, FILTER_VALIDATE_INT) !== false) && (int) $value < 10) {
