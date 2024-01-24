@@ -25,9 +25,6 @@ return [
     'service'                    => [
         'napas247' => 'QRIBFTTA',
     ],
-    'napas247'                   => [
-        'list_bank_api'=> 'https://api.vietqr.io/v2/banks',
-    ],
     'qr_id'                      => [
         'payload_format_indicator'       => 00,
         'point_of_initiation_method'     => 01,

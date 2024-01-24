@@ -21,7 +21,7 @@ class Napas247ThirdParty implements IThirdParty
 
     private function loadConfig()
     {
-        $this->config = include(__DIR__.'/config.php');
+        $this->config = include(__DIR__.'/third-party.php');
     }
 
     /**
@@ -39,6 +39,10 @@ class Napas247ThirdParty implements IThirdParty
 
     protected function _banks()
     {
+        if (!$this->config['napas247']['get_list_bank_by_api']) {
+            return $this->config['napas247']['list_bank'];
+        }
+
         $ch = curl_init($this->config['napas247']['list_bank_api']);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
