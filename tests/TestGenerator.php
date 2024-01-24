@@ -12,7 +12,6 @@ class TestGenerator extends \PHPUnit\Framework\TestCase {
         $qrCode = new \RedFlag\QrBankGenerator\BankQr($this->bankCode, $this->accountNumber, $this->accountName, $this->amount, $this->content);
 
         $this->qrString = $qrCode->toString();
-
         $this->assertIsString($this->qrString, 'QR string must be string');
 
         $bankQr = \RedFlag\QrBankGenerator\BankQr::fromQrString($this->qrString);

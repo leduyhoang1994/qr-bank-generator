@@ -179,8 +179,11 @@ class QrBankGenerator implements IQrBankGenerator
         $countryCode = $this->calcFirstParamQrString($qrString, 'country_code',
             $transactionAmount['offsetToNextEntityCode'], 'additional_data_field_template');
 
+
         $additionalDataFieldTemplate = $this->calcFirstParamQrString($qrString, 'country_code',
             $countryCode['offsetToNextEntityCode'], 'cyclic_redundancy_check');
+
+        $content = $this->calcFirstParamQrString($additionalDataFieldTemplate['entityVal'], 'content');
 
         $crc = $this->calcFirstParamQrString($qrString, 'cyclic_redundancy_check',
             $additionalDataFieldTemplate['offsetToNextEntityCode']);
@@ -191,12 +194,12 @@ class QrBankGenerator implements IQrBankGenerator
         $qrCode->setAmount($transactionAmount['entityVal']);
         $qrCode->setBankCode($bank['code']);
         $qrCode->setAccountNumber($merchant['entityVal']);
-        $qrCode->setContent($additionalDataFieldTemplate['entityVal']);
+        $qrCode->setContent($content['entityVal']);
 
         return $qrCode;
     }
 
-    protected function calcFirstParamQrString($qrString, $entity, $offsetToEntityCode, $nextEntity = '')
+    protected function calcFirstParamQrString($qrString, $entity, $offsetToEntityCode = 0, $nextEntity = '')
     {
         $qrLen       = strlen($qrString);
         $qrId        = self::convertNum($this->config['qr_id'][$entity]);
