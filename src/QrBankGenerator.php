@@ -96,7 +96,7 @@ class QrBankGenerator implements IQrBankGenerator
 
     protected static function calcCRC($str)
     {
-        return strtoupper(dechex(self::calcDecimal($str)));
+        return sprintf('%04X', crc16_ccitt_ffff($str));
     }
 
     protected static function calcDecimal($str)

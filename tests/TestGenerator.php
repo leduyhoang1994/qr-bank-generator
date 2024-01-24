@@ -6,12 +6,13 @@ class TestGenerator extends \PHPUnit\Framework\TestCase {
     protected $accountNumber = '102870429563';
     protected $accountName = 'zxczxc';
     protected $amount = 50000;
-    protected $content = 'TVU1703100_NguyenHuyHung_HocPhiKi_1';
+    protected $content = 'TVU17032001 NguyenHuyHung HocPhiKi 1';
 
     public function test_generate() {
         $qrCode = new \RedFlag\QrBankGenerator\BankQr($this->bankCode, $this->accountNumber, $this->accountName, $this->amount, $this->content);
 
         $this->qrString = $qrCode->toString();
+        var_dump($this->qrString);die;
         $this->assertIsString($this->qrString, 'QR string must be string');
 
         $bankQr = \RedFlag\QrBankGenerator\BankQr::fromQrString($this->qrString);
