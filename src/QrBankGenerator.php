@@ -185,7 +185,7 @@ class QrBankGenerator implements IQrBankGenerator
 
         $bank = $this->thirdParty->getBankBy('bin', $acquier['entityVal']);
 
-        $qrCode = new QrCode();
+        $qrCode = new BankQr();
         $qrCode->setAmount($transactionAmount['entityVal']);
         $qrCode->setBankCode($bank['code']);
         $qrCode->setAccountNumber($merchant['entityVal']);

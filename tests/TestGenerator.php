@@ -1,23 +1,32 @@
 <?php
 
 class TestGenerator extends \PHPUnit\Framework\TestCase {
+    protected $qrString = '';
+
+    protected $bankCode = 'ICB';
+    protected $accountNumber = '102870429563';
+    protected $accountName = 'zxczxc';
+    protected $amount = 50000;
+    protected $content = 'TVU1703100_NguyenHuyHung_HocPhiKi_1';
+
     public function test_generate() {
-        $bankCode = 'ICB';
-        $accountNumber = '102870429563';
-        $accountName = 'zxczxc';
-        $amount = 50000;
-        $content = 'TVU1703100_NguyenHuyHung_HocPhiKi_1';
+        $qrCode = new \RedFlag\QrBankGenerator\BankQr($this->bankCode, $this->accountNumber, $this->accountName, $this->amount, $this->content);
 
-        $qrCode = new \RedFlag\QrBankGenerator\QrCode($bankCode, $accountNumber, $accountName, $amount, $content);
+        $this->qrString = $qrCode->toString();
 
-        $qrString = $qrCode->toString();
+        $this->assertIsString($this->qrString, 'QR string must be string');
 
-        $this->assertIsString($qrString, 'QR string must be string');
-    }
+        $bankQr = \RedFlag\QrBankGenerator\BankQr::fromQrString($this->qrString);
 
-    public function test_parse() {
-        $qrCode = \RedFlag\QrBankGenerator\QrCode::fromQrString('Lorem Ipsum');
+        $check =
+            $this->bankCode == $bankQr->getBankCode()
+            && $this->accountNumber == $bankQr->getAccountNumber()
+            && $this->accountName == $bankQr->getAccountName()
+            && $this->amount == $bankQr->getAmount()
+            && $this->content == $bankQr->getContent();
 
-        $this->assertInstanceOf(\RedFlag\QrBankGenerator\QrCode::class, $qrCode, 'QR string is invalid');
+        var_dump($bankQr);
+
+        $this->assertTrue($check, 'QR string is invalid');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace RedFlag\QrBankGenerator;
 
-class QrBank
+class BankQr
 {
     protected $qrString;
     protected $bankCode;
@@ -30,6 +30,10 @@ class QrBank
         $this->generator = new QrBankGenerator();
     }
 
+    /**
+     * @param $string
+     * @return BankQr
+     */
     public static function fromQrString($string)
     {
         $generator = new QrBankGenerator();

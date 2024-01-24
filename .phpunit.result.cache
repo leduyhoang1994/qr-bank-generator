@@ -1,1 +1,1 @@
-{"version":1,"defects":[],"times":{"TestGenerator::test_generate":0.003,"TestGenerator::test_parse":0}}
+{"version":1,"defects":{"TestGenerator::test_parse":4,"TestGenerator::test_generate":3},"times":{"TestGenerator::test_generate":0.666,"TestGenerator::test_parse":1.781}}

@@ -2,14 +2,14 @@
 
 namespace RedFlag\QrBankGenerator\Interfaces;
 
-use RedFlag\QrBankGenerator\QrCode;
+use RedFlag\QrBankGenerator\BankQr;
 
 interface IQrBankGenerator
 {
 
     /**
-     * Generate QR string from QrCode object
-     * @param QrCode $qrCode
+     * Generate QR string from BankQr object
+     * @param BankQr $qrCode
      * @return string
      */
     public function generate($qrCode);
@@ -17,7 +17,7 @@ interface IQrBankGenerator
     /**
      * Parse QR string into qr object
      * @param $qrString
-     * @return QrCode
+     * @return BankQr
      */
     public function parse($qrString);
 
