@@ -2,7 +2,7 @@
 
 return [
     'config'                     => [
-        'point_of_initiation_method' => 'dynamic',
+        'point_of_initiation_method' => 'static',
         'service'                    => 'napas247',
         'guid'                       => 'value',
     ],
@@ -38,6 +38,7 @@ return [
         'acquier'                        => 00,
         'merchant'                       => 01,
         'beneficiary_bank'               => 01,
-        'service'                        => 02,
+        'content'                        => 8,
+        'service'                        => 07,
     ],
 ];

@@ -58,7 +58,9 @@ class QrBankGenerator implements IQrBankGenerator
             $this->config['cast_country_code']['VNM']);
         $transactionAmount           = $this->generateEntityCode('transaction_amount', $amount);
         $countryCode                 = $this->generateEntityCode('country_code', 'VN');
-        $additionalDataFieldTemplate = $this->generateEntityCode('additional_data_field_template', $content);
+
+        $contentCode = $this->generateEntityCode('content', $content);
+        $additionalDataFieldTemplate = $this->generateEntityCode('additional_data_field_template', $contentCode);
 
         $contentQR = sprintf('%s%s%s%s%s%s%s', $payloadFormatIndicator, $pointOfInitiationMethod,
             $consumerAccountInformation, $transactionCurrency, $transactionAmount, $countryCode,
