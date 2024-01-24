@@ -77,7 +77,7 @@ class QrBankGenerator implements IQrBankGenerator
             $value = '0'.$value;
         }
 
-        return $value;
+        return (string) $value;
     }
 
 
@@ -146,10 +146,78 @@ class QrBankGenerator implements IQrBankGenerator
 
     public function parse($qrString)
     {
-        // TODO: Implement reverse() method.
+        $payloadFormatIndicator = $this->calcFirstParamQrString($qrString, 'payload_format_indicator',
+            0, 'point_of_initiation_method');
+
+        $pointOfInitiationMethod = $this->calcFirstParamQrString($qrString, 'point_of_initiation_method',
+            $payloadFormatIndicator['offsetToNextEntityCode'], 'consumer_account_information');
+
+        $consumerAccountInformation = $this->calcFirstParamQrString($qrString, 'consumer_account_information',
+            $pointOfInitiationMethod['offsetToNextEntityCode'], 'transaction_currency');
+
+        $guid = $this->calcFirstParamQrString($consumerAccountInformation['entityVal'], 'guid', 0, 'beneficiary_bank');
+
+        $beneficiaryBank = $this->calcFirstParamQrString($consumerAccountInformation['entityVal'], 'beneficiary_bank',
+            $guid['offsetToNextEntityCode'], 'service');
+
+        $acquier = $this->calcFirstParamQrString($beneficiaryBank['entityVal'], 'acquier', 0, 'merchant');
+
+        $merchant = $this->calcFirstParamQrString($beneficiaryBank['entityVal'], 'merchant',
+            $acquier['offsetToNextEntityCode']);
+
+        $service = $this->calcFirstParamQrString($consumerAccountInformation['entityVal'], 'service',
+            $beneficiaryBank['offsetToNextEntityCode']);
+
+        $transactionCurrency = $this->calcFirstParamQrString($qrString, 'transaction_currency',
+            $consumerAccountInformation['offsetToNextEntityCode'], 'transaction_amount');
+
+        $transactionAmount = $this->calcFirstParamQrString($qrString, 'transaction_amount',
+            $transactionCurrency['offsetToNextEntityCode'], 'country_code');
+
+        $countryCode = $this->calcFirstParamQrString($qrString, 'country_code',
+            $transactionAmount['offsetToNextEntityCode'], 'additional_data_field_template');
+
+        $additionalDataFieldTemplate = $this->calcFirstParamQrString($qrString, 'country_code',
+            $countryCode['offsetToNextEntityCode'], 'cyclic_redundancy_check');
+
+        $crc = $this->calcFirstParamQrString($qrString, 'cyclic_redundancy_check',
+            $additionalDataFieldTemplate['offsetToNextEntityCode']);
+
+        $bank = $this->thirdParty->getBankBy('bin', $acquier['entityVal']);
+
         $qrCode = new QrCode();
+        $qrCode->setAmount($transactionAmount['entityVal']);
+        $qrCode->setBankCode($bank['code']);
+        $qrCode->setAccountNumber($merchant['entityVal']);
+        $qrCode->setContent($additionalDataFieldTemplate['entityVal']);
 
         return $qrCode;
+    }
+
+    protected function calcFirstParamQrString($qrString, $entity, $offsetToEntityCode, $nextEntity = '')
+    {
+        $qrLen       = strlen($qrString);
+        $qrId        = self::convertNum($this->config['qr_id'][$entity]);
+        $qrIdLen     = strlen($qrId);
+        $nextQrId    = $nextEntity ? self::convertNum($this->config['qr_id'][$nextEntity]) : '';
+        $nextQrIdLen = strlen($nextQrId);
+
+        for ($i = 2; $i < $qrLen; $i++) {
+            $entityLen    = substr($qrString, $qrIdLen + $offsetToEntityCode, $i);
+            $entityLenVal = (int) $entityLen;
+            $offsetOfVal  = $qrIdLen + strlen($entityLen);
+            $entityVal    = substr($qrString, $offsetOfVal + $offsetToEntityCode, $entityLenVal);
+            $paramLen     = $offsetOfVal + strlen($entityVal);
+
+            $offsetToNextEntityCode = $paramLen + $offsetToEntityCode;
+
+            $nextQrIdVal = substr($qrString, $offsetToNextEntityCode, $nextQrIdLen);
+            if ($nextQrId === $nextQrIdVal) {
+                return compact('qrId', 'entityLen', 'entityVal', 'paramLen', 'offsetToNextEntityCode');
+            }
+        }
+
+        return [];
     }
 
     public function getBankList()

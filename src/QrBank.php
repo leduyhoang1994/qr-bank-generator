@@ -2,7 +2,7 @@
 
 namespace RedFlag\QrBankGenerator;
 
-class QrCode
+class QrBank
 {
     protected $qrString;
     protected $bankCode;

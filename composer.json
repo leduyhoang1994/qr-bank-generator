@@ -18,9 +18,5 @@
             "name": "leduyhoang1994",
             "email": "leduyhoang1994@gmail.com"
         }
-    ],
-    "require": {
-        "ext-curl": "*",
-        "ext-json": "*"
-    }
+    ]
 }
