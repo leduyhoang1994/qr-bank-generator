@@ -2,7 +2,7 @@
 
 return [
     'config'                     => [
-        'point_of_initiation_method' => 'dynamic',
+        'point_of_initiation_method' => 'static',
         'service'                    => 'napas247_account',
         'guid'                       => 'value',
     ],
