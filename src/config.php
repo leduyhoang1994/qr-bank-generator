@@ -2,15 +2,12 @@
 
 return [
     'config'                     => [
-        'point_of_initiation_method' => 'static',
-        'service'                    => 'napas247',
+        'point_of_initiation_method' => 'dynamic',
+        'service'                    => 'napas247_account',
         'guid'                       => 'value',
     ],
     'cast_country_code'          => [
         'VNM' => 704,
-    ],
-    'bank_list'                  => [
-        'vietinbank' => 'vietinbank',
     ],
     'transaction_currency'       => [
         ''
@@ -23,7 +20,8 @@ return [
         'dynamic' => 12,
     ],
     'service'                    => [
-        'napas247' => 'QRIBFTTA',
+        'napas247_card'    => 'QRIBFTTC',
+        'napas247_account' => 'QRIBFTTA',
     ],
     'qr_id'                      => [
         'payload_format_indicator'       => 00,
@@ -35,10 +33,10 @@ return [
         'additional_data_field_template' => 62,
         'cyclic_redundancy_check'        => 63,
         'guid'                           => 00,
+        'beneficiary_bank'               => 01,
         'acquier'                        => 00,
         'merchant'                       => 01,
-        'beneficiary_bank'               => 01,
+        'service'                        => 02,
         'content'                        => 8,
-        'service'                        => 07,
     ],
 ];

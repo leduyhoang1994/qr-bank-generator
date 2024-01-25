@@ -227,6 +227,6 @@ class QrBankGenerator implements IQrBankGenerator
 
     public function getBankList()
     {
-        return isset($this->config['bank_list']) ? $this->config['bank_list'] : [];
+        return $this->thirdParty->getBanks();
     }
 }
