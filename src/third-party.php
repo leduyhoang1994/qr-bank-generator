@@ -2,7 +2,7 @@
 
 return [
     'napas247' => [
-        'get_list_bank_by_api' => true,
+        'get_list_bank_by_api' => false,
         'list_bank_api'        => 'https://api.vietqr.io/v2/banks',
         'list_bank'            => [
             [
